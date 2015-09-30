@@ -28,4 +28,4 @@ HOW TO USE:
 
 csyparse(), the syntax checker, may be used as is once setting CSYIN (example in testProg.c). It will return 0 if the syntax is correct, else 1.
 
-cacparse(), which needs some functionality still, will eventually return a 0 if the user was found in the .access file AND they have the proper permissions. Else, return 0.
+cacparse(), which needs some functionality still, will eventually return a 0 if the user was found in the .access file AND they have the proper permissions. Else, return 1.
