@@ -1,24 +1,58 @@
 %{
 #include <stdio.h>
-void cacerror(const char *);
+#include <string.h>
+void cacerror(const char *, int, const char *);
 %}
 
 %define api.value.type {char*}
 %define api.prefix {cac}
 %define parse.error verbose
+%parse-param {char *username} {int accBit}
 
-%start line
+%start begin
 %token USER READ WRITE BOTH
 
 %%
 
-line		: USER accessBit '\n'		{;}
-		| USER accessBit '\n' line	{printf("USER accessbit\n");}
+begin		: line				{YYABORT;}
+
+line		: USER accessBit '\n' line	{if(!accBit && 
+						    !strncmp(username,$1,strlen(username)) &&
+						    (*$2 == 'r' || *$2 == 'b') )
+						 { //get (read), found username in file
+						     printf("%s found, read\n",username);
+						     printf("%s %c\n",$1,*$2);
+						     YYACCEPT;
+						 }else if( accBit &&
+							   !strncmp(username,$1,strlen(username)) &&
+							   (*$2 == 'w' || *$2 == 'b') )
+						 {
+						     printf("%s found, write\n",username);
+						     printf("%s %c\n",$1,*$2);
+						     YYACCEPT;
+						 }
+						;}
+		| USER accessBit '\n' 		{if(!accBit &&
+                                                    !strncmp(username,$1,strlen(username)) &&
+                                                    (*$2 == 'r' || *$2 == 'b') )
+                                                 { //get (read), found username in file
+                                                     printf("%s found, read\n",username);
+						     printf("%s %c\n",$1,*$2);
+                                                     YYACCEPT;
+                                                 }else if( accBit &&
+                                                           !strncmp(username,$1,strlen(username)) &&
+                                                           (*$2 == 'w' || *$2 == 'b') )
+                                                 {
+                                                     printf("%s found, write\n",username);
+						     printf("%s %c\n",$1,*$2);
+                                                     YYACCEPT;
+                                                 }
+                                                ;}
 		;
 
-accessBit	: READ				{;}
-		| WRITE				{;}
-		| BOTH				{;}
+accessBit	: READ				{$$ = "r";}
+		| WRITE				{$$ = "w";}
+		| BOTH				{$$ = "b";}
 		;
 
 
@@ -32,4 +66,4 @@ accessBit	: READ				{;}
 *    return result;
 *}*/
 
-void cacerror(const char *s) {fprintf(stderr, "%s\n",s);}
+void cacerror(const char *un, int accBit, const char *s) {fprintf(stderr, "%s, %d, %s\n",un, accBit, s);}
