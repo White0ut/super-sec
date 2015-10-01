@@ -57,9 +57,9 @@ $(PUTOBJECTS): $(OBJDIR)/put/%.o : $(SRCDIR)/put/%.c
 # Create directories if they don't exist
 .PHONY: directories
 directories: $(OUT_DIRS)
+	@echo "created obj dirs"
 
 $(OUT_DIRS):
-	@echo "creating obj dirs"
 	@$(MKDIR_P) $@
 
 # The clean target will remove objects, leaving executables
