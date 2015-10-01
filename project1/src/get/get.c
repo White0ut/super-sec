@@ -9,9 +9,9 @@
 int main(int argc, char** argv) {
 	printf("We are working here\n");
 
-	printf("args: %d", argc);
+	printf("argc: %d\n", argc);
 	for (int i = 0; i < argc; i++) {
-		printf("arg" + i + ": %s", argv[i]);
+		printf("argv[%d]: %s\n", i, argv[i]);
 	}
 
 	/* If the ACL file does not exist, exit silently */
