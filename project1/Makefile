@@ -6,24 +6,25 @@
 TARGETS  = get put
 CC       = gcc
 # compiling flags here
-CFLAGS   = -std=c99 -Wall -I.
+CFLAGS   = -std=gnu99 -Wall -I.
 
 LINKER   = gcc -o
 # linking flags here
 LFLAGS   = -Wall -I. -lm
 
 # proper directories where each files should be
-SRCDIR   = src
+SRCDIR   = src/main
 OBJDIR   = obj
 
 MKDIR_P 	= mkdir -p
 OUT_DIRS	= obj/get obj/put
+OUT_DIR_ROOTS = obj
 
 GETSOURCES  := $(wildcard $(SRCDIR)/get/*.c)
 PUTSOURCES  := $(wildcard $(SRCDIR)/put/*.c)
 GETOBJECTS 	:= $(GETSOURCES:$(SRCDIR)/get/%.c=$(OBJDIR)/get/%.o)
 PUTOBJECTS 	:= $(PUTSOURCES:$(SRCDIR)/put/%.c=$(OBJDIR)/put/%.o)
-rm       = rm -f
+rm       = rm -rf
 
 # Check for valid directories, then create the target executables
 .PHONY: all
@@ -57,9 +58,9 @@ $(PUTOBJECTS): $(OBJDIR)/put/%.o : $(SRCDIR)/put/%.c
 # Create directories if they don't exist
 .PHONY: directories
 directories: $(OUT_DIRS)
-	@echo "created obj dirs"
 
 $(OUT_DIRS):
+	@echo "created " $@
 	@$(MKDIR_P) $@
 
 # The clean target will remove objects, leaving executables
@@ -73,4 +74,5 @@ clean:
 .PHONY: remove
 remove: clean
 	@$(rm) $(TARGETS)
+	@$(rm) $(OUT_DIR_ROOTS)
 	@echo "Executables removed!"
