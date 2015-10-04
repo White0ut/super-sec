@@ -1,0 +1,31 @@
+The lexical and syntactic parsers that govern the functionality behind the .access files.
+
+checkSyntax.y + accessTokens.l combine to define a simple syntax checker for any .access file.
+
+checkAccess.y + accessTokens2.l combine to define behavior governing the contents of the .access file.
+
+
+Functionality notes:
+
+The Makefile here is a demonstration of how the end product will look; it compiles object files out of the two parsers and puts them into an arbitrary third file, where main() is located.
+
+In the program with main(), the pointers extern FILE *csyin, *cacin need to be opened on the appropriate .access file (after ensuring ownership...)
+
+Then, csyparse() and cacparse() may be called (in this order).
+
+Moving forward:
+
+The user-checking and permission granting parts of checkAccess.y need to be implemented. That is, we need to check for a couple things:
+
+1) That the owner (ruid) of THIS (get / put) is the same as the owner of the file AND file.access
+
+2) That the user (euid) is granted appropriate access in the .access file
+
+In cases where these are not true, silently exit.
+
+
+HOW TO USE: 
+
+csyparse(), the syntax checker, may be used as is once setting CSYIN (example in testProg.c). It will return 0 if the syntax is correct, else 1.
+
+cacparse(), which needs some functionality still, will eventually return a 0 if the user was found in the .access file AND they have the proper permissions. Else, return 1.
