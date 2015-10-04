@@ -6,8 +6,6 @@
 
 #define DEBUG 1
 
-int csyparse();
-
 /**
 * Silent exists emit "silent exit" to the terminal before exiting
 * 
