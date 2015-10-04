@@ -40,8 +40,8 @@ int main(int argc, char** argv) {
 	/* init file variables */
 	FILE *source_fp;
     FILE *destination_fp;
-    char *source_p = (char*) malloc(sizeof(char) * strlen(argv[1]));
-    char *dest_p = (char*) malloc(sizeof(char) * strlen(argv[2]));
+    char *source_p = (char*) malloc(sizeof(char) * strlen(argv[1]) + 1);
+    char *dest_p = (char*) malloc(sizeof(char) * strlen(argv[2]) + 1);
     strncpy(source_p, argv[1], strlen(argv[1]) + 1);
     strncpy(dest_p, argv[2], strlen(argv[2]) + 1);
     char *acl_path = strncat(argv[1], ".access", 7);
