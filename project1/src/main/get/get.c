@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
     struct stat buf;
 	int x;
 
-	x = lstat(path, &buf);
+	x = lstat(acl_path, &buf);
 	if (x < 0) {
 		printf("silent exit\n");
 		if (DEBUG) {
@@ -81,7 +81,7 @@ int main(int argc, char** argv) {
 	}
 
 	/* malformed ACL entry causes a silent exit (FLEX file ?? ) */
-	if (casyparse()) {
+	if (csyparse()) {
 		printf("silent exit\n");
 		if (DEBUG) {
 			printf("malformed ACL entry\n");

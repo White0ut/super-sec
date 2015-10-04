@@ -25,23 +25,27 @@ PUTSOURCES  := $(wildcard $(SRCDIR)/put/*.c)
 GETOBJECTS 	:= $(GETSOURCES:$(SRCDIR)/get/%.c=$(OBJDIR)/get/%.o)
 PUTOBJECTS 	:= $(PUTSOURCES:$(SRCDIR)/put/%.c=$(OBJDIR)/put/%.o)
 rm       = rm -rf
+PARSEDIR := src/main/parse/
 
 # Check for valid directories, then create the target executables
 .PHONY: all
-all: directories $(TARGETS)
+all: directories parsers $(TARGETS)
 	@echo "Success!"
+
+parsers:
+	cd src/main/parse; make
 
 # These are our targets (executables)
 # In order to create and link our objects to system libraries
 # we need the get and put objects
 get: $(GETOBJECTS)
 	@printf "linking %s..." $^
-	@$(LINKER) $@ $(LFLAGS) $(GETOBJECTS)
+	@$(LINKER) $@ $(LFLAGS) $(GETOBJECTS) $(PARSEDIR)checkSyntax.tab.o $(PARSEDIR)lex.csy.o $(PARSEDIR)checkAccess.tab.o $(PARSEDIR)lex.cac.o
 	@echo "Done!"
 
 put: $(PUTOBJECTS)
 	@printf "linking %s..." $^
-	@$(LINKER) $@ $(LFLAGS) $(PUTOBJECTS)
+	@$(LINKER) $@ $(LFLAGS) $(PUTOBJECTS) $(PARSEDIR)checkSyntax.tab.o $(PARSEDIR)lex.csy.o $(PARSEDIR)checkAccess.tab.o $(PARSEDIR)lex.cac.o
 	@echo "Done!"
 
 # This is the first stage in compilation, creating the objects
