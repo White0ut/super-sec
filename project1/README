@@ -21,4 +21,7 @@ The owner sets the setuid bit in the permissions. These files thus have elevated
 
 Before doing anything, they check that the owner owns the files granting access to other users AND that the specific user has said access.
 
+Security decisions:
+The user has access to a program with elevated privileges, so we check lengths on input to prevent buffer overflow attacks.
 
+The syntax of the .access file is guaranteed through the use of a lexical and syntax parser implemented usign flex and bison.
