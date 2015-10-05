@@ -9,11 +9,12 @@
 #include <errno.h>
 #include <string.h>
 
-#define DEBUG 1
+#define DEBUG 0
 #define ERROR(str)		fprintf(stderr, "%s" #str "\n",strerror(errno))
 #define MAX_PATH		256
 
 extern FILE *csyin, *cacin;
+FILE *fin, *fout;
 
 /*
  *setuid program
@@ -121,18 +122,44 @@ int main(int argc, char** argv)
         exit(EXIT_FAILURE);
     }
 
+    //Release the parser streams
+    fclose(csyin); 
+    fclose(cacin);
+
     /*Lower privileges to real uid (user) ***********************************/
     seteuid(user);
 
-    //Check that user has access to source
-    if(access(source, R_OK) != 0){
+    //Check that user has access to source and open for reading
+//    if(access(source, R_OK) != 0){
+//        printf("silent exit\n");
+//        if(DEBUG) ERROR(" user does not have read privs of source\n");
+//        exit(EXIT_FAILURE);
+//    }
+
+    if((fin = fopen(source, "r")) == NULL){
         printf("silent exit\n");
-        if(DEBUG) ERROR(" user does not have read privs of source\n");
+        if(DEBUG) ERROR(" user was unable to open source for read\n");
         exit(EXIT_FAILURE);
     }
 
     /*Raise privileges back to owner*****************************************/
     seteuid(owner);
+
+    //Open destination and copy source into it
+    if((fout = fopen(dest, "w")) == NULL){
+       printf("silent exit\n");
+       if(DEBUG) ERROR(" owner was unable to open dest for write\n");
+       exit(EXIT_FAILURE); 
+    }
+
+    char c;
+    while((c = fgetc(fin)) != EOF){
+        fputc(c, fout);
+    }
+
+    //close streams
+    fclose(fin);
+    fclose(fout);
 
     //Zero out buffers
     memset(dest, 0, sizeof dest);
@@ -140,14 +167,6 @@ int main(int argc, char** argv)
     memset(destacc, 0, sizeof destacc);
     memset(&dstat, 0, sizeof dstat);
     memset(&astat, 0, sizeof astat);
-    //Release streams
-    fclose(csyin);
-    fclose(cacin);
 
-    //Construct arg string
-    char* const args[] = {"/bin/cp", "-i", source, dest, NULL};
-
-    //Execute mv, prompts overwrite
-    execv("/bin/cp", args);
-
+    return 0;
 }
