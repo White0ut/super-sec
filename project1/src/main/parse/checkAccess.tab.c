@@ -1225,15 +1225,15 @@ yyreduce:
 						    !strncmp(username,(yyvsp[-3]),strlen(username)) &&
 						    (*(yyvsp[-2]) == 'r' || *(yyvsp[-2]) == 'b') )
 						 { //get (read), found username in file
-						     printf("%s found, read\n",username);
-						     printf("%s %c\n",(yyvsp[-3]),*(yyvsp[-2]));
+						    // printf("%s found, read\n",username);
+						     //printf("%s %c\n",$1,*$2);
 						     YYACCEPT;
 						 }else if( accBit &&
 							   !strncmp(username,(yyvsp[-3]),strlen(username)) &&
 							   (*(yyvsp[-2]) == 'w' || *(yyvsp[-2]) == 'b') )
 						 {
-						     printf("%s found, write\n",username);
-						     printf("%s %c\n",(yyvsp[-3]),*(yyvsp[-2]));
+						     //printf("%s found, write\n",username);
+						     //printf("%s %c\n",$1,*$2);
 						     YYACCEPT;
 						 }
 						;}
@@ -1246,15 +1246,15 @@ yyreduce:
                                                     !strncmp(username,(yyvsp[-2]),strlen(username)) &&
                                                     (*(yyvsp[-1]) == 'r' || *(yyvsp[-1]) == 'b') )
                                                  { //get (read), found username in file
-                                                     printf("%s found, read\n",username);
-						     printf("%s %c\n",(yyvsp[-2]),*(yyvsp[-1]));
+                                                     //printf("%s found, read\n",username);
+						     //printf("%s %c\n",$1,*$2);
                                                      YYACCEPT;
                                                  }else if( accBit &&
                                                            !strncmp(username,(yyvsp[-2]),strlen(username)) &&
                                                            (*(yyvsp[-1]) == 'w' || *(yyvsp[-1]) == 'b') )
                                                  {
-                                                     printf("%s found, write\n",username);
-						     printf("%s %c\n",(yyvsp[-2]),*(yyvsp[-1]));
+                                                     //printf("%s found, write\n",username);
+						     //printf("%s %c\n",$1,*$2);
                                                      YYACCEPT;
                                                  }
                                                 ;}

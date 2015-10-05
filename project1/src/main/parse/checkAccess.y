@@ -20,15 +20,15 @@ line		: USER accessBit '\n' line	{if(!accBit &&
 						    !strncmp(username,$1,strlen(username)) &&
 						    (*$2 == 'r' || *$2 == 'b') )
 						 { //get (read), found username in file
-						     printf("%s found, read\n",username);
-						     printf("%s %c\n",$1,*$2);
+						    // printf("%s found, read\n",username);
+						     //printf("%s %c\n",$1,*$2);
 						     YYACCEPT;
 						 }else if( accBit &&
 							   !strncmp(username,$1,strlen(username)) &&
 							   (*$2 == 'w' || *$2 == 'b') )
 						 {
-						     printf("%s found, write\n",username);
-						     printf("%s %c\n",$1,*$2);
+						     //printf("%s found, write\n",username);
+						     //printf("%s %c\n",$1,*$2);
 						     YYACCEPT;
 						 }
 						;}
@@ -36,15 +36,15 @@ line		: USER accessBit '\n' line	{if(!accBit &&
                                                     !strncmp(username,$1,strlen(username)) &&
                                                     (*$2 == 'r' || *$2 == 'b') )
                                                  { //get (read), found username in file
-                                                     printf("%s found, read\n",username);
-						     printf("%s %c\n",$1,*$2);
+                                                     //printf("%s found, read\n",username);
+						     //printf("%s %c\n",$1,*$2);
                                                      YYACCEPT;
                                                  }else if( accBit &&
                                                            !strncmp(username,$1,strlen(username)) &&
                                                            (*$2 == 'w' || *$2 == 'b') )
                                                  {
-                                                     printf("%s found, write\n",username);
-						     printf("%s %c\n",$1,*$2);
+                                                     //printf("%s found, write\n",username);
+						     //printf("%s %c\n",$1,*$2);
                                                      YYACCEPT;
                                                  }
                                                 ;}

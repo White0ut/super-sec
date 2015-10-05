@@ -23,7 +23,7 @@ int main(int argc, char** argv)
 {
 
     //Check that correct number of args sent in
-    if(argc == 3){
+    if(argc != 3){
         printf("Incorrect number of arguments, try:\n");
         printf("put <source> <destination>\n");
     }
@@ -36,8 +36,8 @@ int main(int argc, char** argv)
         printf("source or destination path too long\n");
         exit(EXIT_FAILURE);
     }
-    strncat(source, argv[1], MAX_PATH);
-    strncat(dest, argv[2], MAX_PATH);
+    strcpy(source, argv[1]);
+    strcpy(dest, argv[2]);
     strcpy(destacc, dest); strcat(destacc, ".access");
     uid_t owner = geteuid(); //Get owner
     uid_t user = getuid(); //Get user
@@ -56,6 +56,7 @@ int main(int argc, char** argv)
         printf("silent exit\n");
         if(DEBUG){
             ERROR(" in lstat(dest) block");
+            printf("%s\n",dest);
         }
         exit(EXIT_FAILURE);
     }
@@ -70,7 +71,7 @@ int main(int argc, char** argv)
     }
 
     //Check that owner has write access to destination
-    if(dstat.st_mode & S_IWUSR){
+    if( !(dstat.st_mode & S_IWUSR) ){
         printf("silent exit\n");
         if(DEBUG){
             ERROR(", owner does not have write priveleges");
@@ -129,6 +130,9 @@ int main(int argc, char** argv)
         if(DEBUG) ERROR(" user does not have read privs of source\n");
         exit(EXIT_FAILURE);
     }
+
+    /*Raise privileges back to owner*****************************************/
+    seteuid(owner);
 
     //Construct arg string
     char* const args[] = {"/bin/cp", "-i", source, dest, NULL};
