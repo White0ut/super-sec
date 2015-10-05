@@ -4,11 +4,13 @@
 
 ### Contributions
 _Kendrick Cline_
+
 	- makefile
 	- get.c
 	- project layout
 
 _Dillon Daudert_
+
 	- checkSyntax.y
 	- accessTokens(2).l
 	- checkAccess.y
