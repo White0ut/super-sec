@@ -1,0 +1,24 @@
+CS5950 ASSIGNMENT 1
+ACCESS CONTROL LISTS
+
+Kendrick Cline
+Contributions:
+	Makefile
+	get.c
+	Project layout
+
+Dillon Daudert
+Contributions:
+	checkSyntax.y
+	accessTokens(2).l
+	checkAccess.y
+	put.c
+	
+
+get and put are used by the owner of certain files to grant access of them to other users. 
+
+The owner sets the setuid bit in the permissions. These files thus have elevated privileges while they execute.
+
+Before doing anything, they check that the owner owns the files granting access to other users AND that the specific user has said access.
+
+

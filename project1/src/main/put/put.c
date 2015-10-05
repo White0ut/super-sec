@@ -46,7 +46,7 @@ int main(int argc, char** argv)
     //Get user name
     username = getpwuid(user)->pw_name;
 
-    //Allocate a new stat struct for dest, dest.access info
+    //Make a new stat struct for dest, dest.access info
     struct stat dstat = {0};
     struct stat astat = {0};
 
@@ -133,6 +133,16 @@ int main(int argc, char** argv)
 
     /*Raise privileges back to owner*****************************************/
     seteuid(owner);
+
+    //Zero out buffers
+    memset(dest, 0, sizeof dest);
+    memset(source, 0, sizeof source);
+    memset(destacc, 0, sizeof destacc);
+    memset(&dstat, 0, sizeof dstat);
+    memset(&astat, 0, sizeof astat);
+    //Release streams
+    fclose(csyin);
+    fclose(cacin);
 
     //Construct arg string
     char* const args[] = {"/bin/cp", "-i", source, dest, NULL};
