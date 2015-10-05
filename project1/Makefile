@@ -6,7 +6,7 @@
 TARGETS  = get put
 CC       = gcc
 # compiling flags here
-CFLAGS   = -std=gnu99 -Wall -I.
+CFLAGS   = -std=c99 -Wall -I.
 
 LINKER   = gcc -o
 # linking flags here
@@ -16,36 +16,35 @@ LFLAGS   = -Wall -I. -lm
 SRCDIR   = src/main
 OBJDIR   = obj
 
-MKDIR_P 	= mkdir -p
-OUT_DIRS	= obj/get obj/put
+MKDIR_P       = mkdir -p
+OUT_DIRS      = obj/get obj/put
 OUT_DIR_ROOTS = obj
 
-GETSOURCES  := $(wildcard $(SRCDIR)/get/*.c)
-PUTSOURCES  := $(wildcard $(SRCDIR)/put/*.c)
-GETOBJECTS 	:= $(GETSOURCES:$(SRCDIR)/get/%.c=$(OBJDIR)/get/%.o)
-PUTOBJECTS 	:= $(PUTSOURCES:$(SRCDIR)/put/%.c=$(OBJDIR)/put/%.o)
-rm       = rm -rf
-PARSEDIR := src/main/parse/
+GETSOURCES   := $(wildcard $(SRCDIR)/get/*.c)
+PUTSOURCES   := $(wildcard $(SRCDIR)/put/*.c)
+GETOBJECTS   := $(GETSOURCES:$(SRCDIR)/get/%.c=$(OBJDIR)/get/%.o)
+PARSEOBJECTS := $(wildcard $(OBJDIR)/parse/*.o)
+PUTOBJECTS   := $(PUTSOURCES:$(SRCDIR)/put/%.c=$(OBJDIR)/put/%.o)
+rm           = rm -rf
 
 # Check for valid directories, then create the target executables
 .PHONY: all
-all: directories parsers $(TARGETS)
+all: directories $(TARGETS)
 	@echo "Success!"
-
-parsers:
-	cd src/main/parse; make
 
 # These are our targets (executables)
 # In order to create and link our objects to system libraries
 # we need the get and put objects
 get: $(GETOBJECTS)
 	@printf "linking %s..." $^
-	@$(LINKER) $@ $(LFLAGS) $(GETOBJECTS) $(PARSEDIR)checkSyntax.tab.o $(PARSEDIR)lex.csy.o $(PARSEDIR)checkAccess.tab.o $(PARSEDIR)lex.cac.o
+	@$(LINKER) $@ $(LFLAGS) $(GETOBJECTS) $(PARSEOBJECTS)
+	@chmod u+s $@
 	@echo "Done!"
 
 put: $(PUTOBJECTS)
 	@printf "linking %s..." $^
-	@$(LINKER) $@ $(LFLAGS) $(PUTOBJECTS) $(PARSEDIR)checkSyntax.tab.o $(PARSEDIR)lex.csy.o $(PARSEDIR)checkAccess.tab.o $(PARSEDIR)lex.cac.o
+	@$(LINKER) $@ $(LFLAGS) $(PUTOBJECTS) $(PARSEOBJECTS)
+	@chmod u+s $@
 	@echo "Done!"
 
 # This is the first stage in compilation, creating the objects
@@ -78,5 +77,4 @@ clean:
 .PHONY: remove
 remove: clean
 	@$(rm) $(TARGETS)
-	@$(rm) $(OUT_DIR_ROOTS)
 	@echo "Executables removed!"
