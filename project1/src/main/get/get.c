@@ -170,7 +170,7 @@ int checkOwner(char *path) {
 		return 0;
     }
 
-    if (buf.st_uid == getuid()) {
+    if (buf.st_uid == geteuid()) {
 		return 1;
     }
     return 0;
