@@ -16,16 +16,16 @@ LFLAGS   = -Wall -I. -lm
 SRCDIR   = src/main
 OBJDIR   = obj
 
-MKDIR_P 	= mkdir -p
-OUT_DIRS	= obj/get obj/put
+MKDIR_P       = mkdir -p
+OUT_DIRS      = obj/get obj/put
 OUT_DIR_ROOTS = obj
 
-GETSOURCES  := $(wildcard $(SRCDIR)/get/*.c)
-PUTSOURCES  := $(wildcard $(SRCDIR)/put/*.c)
-GETOBJECTS 	:= $(GETSOURCES:$(SRCDIR)/get/%.c=$(OBJDIR)/get/%.o)
+GETSOURCES   := $(wildcard $(SRCDIR)/get/*.c)
+PUTSOURCES   := $(wildcard $(SRCDIR)/put/*.c)
+GETOBJECTS   := $(GETSOURCES:$(SRCDIR)/get/%.c=$(OBJDIR)/get/%.o)
 PARSEOBJECTS := $(wildcard $(OBJDIR)/parse/*.o)
-PUTOBJECTS 	:= $(PUTSOURCES:$(SRCDIR)/put/%.c=$(OBJDIR)/put/%.o)
-rm       = rm -rf
+PUTOBJECTS   := $(PUTSOURCES:$(SRCDIR)/put/%.c=$(OBJDIR)/put/%.o)
+rm           = rm -rf
 
 # Check for valid directories, then create the target executables
 .PHONY: all
