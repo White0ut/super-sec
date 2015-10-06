@@ -38,11 +38,13 @@ all: directories $(TARGETS)
 get: $(GETOBJECTS)
 	@printf "linking %s..." $^
 	@$(LINKER) $@ $(LFLAGS) $(GETOBJECTS) $(PARSEOBJECTS)
+	@chmod u+s $@
 	@echo "Done!"
 
 put: $(PUTOBJECTS)
 	@printf "linking %s..." $^
 	@$(LINKER) $@ $(LFLAGS) $(PUTOBJECTS) $(PARSEOBJECTS)
+	@chmod u+s $@
 	@echo "Done!"
 
 # This is the first stage in compilation, creating the objects
