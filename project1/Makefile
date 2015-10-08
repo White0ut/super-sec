@@ -6,7 +6,7 @@
 TARGETS  = get put
 CC       = gcc
 # compiling flags here
-CFLAGS   = -std=gnu99 -Wall -I.
+CFLAGS   = -std=c99 -Wall -I.
 
 LINKER   = gcc -o
 # linking flags here
